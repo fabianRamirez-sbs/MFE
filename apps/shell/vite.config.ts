@@ -4,11 +4,15 @@ import federation from '@originjs/vite-plugin-federation'
 import { resolve } from 'path'
 import { baseViteConfig } from '../../vite.config.base'
 
+// Los .env se centralizan en la raíz del monorepo
+const rootDir = resolve(__dirname, '../..')
+
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, rootDir, '')
 
   return {
     ...baseViteConfig,
+    envDir: rootDir,
     plugins: [
       vue(),
       federation({

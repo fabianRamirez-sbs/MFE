@@ -23,6 +23,7 @@ async function bootstrap() {
     url: import.meta.env.VITE_KEYCLOAK_URL,
     realm: import.meta.env.VITE_KEYCLOAK_REALM,
     clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+    logoutRedirectUri: import.meta.env.VITE_KEYCLOAK_LOGOUT_REDIRECT_URI,
     onTokenRefreshed: (token) => {
       // Propagar el token actualizado a todos los MFEs via el store
       shellStore.setToken(token)

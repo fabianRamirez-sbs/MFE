@@ -20,6 +20,8 @@ export interface AuthConfig extends KeycloakConfig {
   /** Intervalo en segundos para renovar el token antes de que expire */
   tokenRefreshInterval?: number
   onTokenRefreshed?: (token: string) => void
+  /** URI de redirección tras el logout (debe coincidir con la configurada en Keycloak) */
+  logoutRedirectUri?: string
 }
 
 let _keycloakInstance: Keycloak | null = null
@@ -53,6 +55,8 @@ export async function initAuth(config: AuthConfig): Promise<AuthResult> {
 
   const keycloak = await initKeycloak(config)
 
+  const logoutOptions = config.logoutRedirectUri ? { redirectUri: config.logoutRedirectUri } : undefined
+
   return {
     authenticated: keycloak.authenticated ?? false,
     isMock: false,
@@ -60,7 +64,7 @@ export async function initAuth(config: AuthConfig): Promise<AuthResult> {
     userProfile: keycloak.authenticated && keycloak.tokenParsed
       ? buildProfileFromToken(keycloak.tokenParsed as Record<string, unknown>)
       : null,
-    logout: () => keycloak.logout(),
+    logout: () => keycloak.logout(logoutOptions),
   }
 }
 
@@ -91,6 +95,8 @@ export async function initKeycloak(config: AuthConfig): Promise<Keycloak> {
   _keycloakInstance = keycloak
 
   const interval = config.tokenRefreshInterval ?? 60
+  const logoutOptions = config.logoutRedirectUri ? { redirectUri: config.logoutRedirectUri } : undefined
+
   setInterval(async () => {
     try {
       const refreshed = await keycloak.updateToken(interval)
@@ -99,7 +105,7 @@ export async function initKeycloak(config: AuthConfig): Promise<Keycloak> {
       }
     } catch {
       console.error('[shared-auth] Sesión expirada — redirigiendo al login')
-      keycloak.logout()
+      keycloak.logout(logoutOptions)
     }
   }, interval * 1000)
 
