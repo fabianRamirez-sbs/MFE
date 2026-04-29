@@ -10,6 +10,15 @@ declare module '*.vue' {
 }
 
 /**
+ * Shims para importaciones de efectos secundarios (CSS / SCSS).
+ * Vite los procesa correctamente en runtime; estos shims solo silencian el error de TS.
+ */
+declare module '*.css' {}
+declare module '*.scss' {}
+declare module 'vuetify/styles' {}
+declare module '@mdi/font/css/materialdesignicons.css' {}
+
+/**
  * Declaraciones de módulos remotos de Module Federation.
  * TypeScript no los resuelve en tiempo de compilación — se cargan en runtime.
  */

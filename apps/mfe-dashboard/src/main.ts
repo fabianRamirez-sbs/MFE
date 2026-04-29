@@ -9,6 +9,9 @@ import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import { dashboardRoutes } from './router/routes'
+import { createVuetify } from '@sipabanca/shared-ui'
+import 'vuetify/styles'
+import '@mdi/font/css/materialdesignicons.css'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -16,6 +19,7 @@ const pinia = createPinia()
 // Mock del store compartido para desarrollo standalone
 const { useSharedStore } = await import('@sipabanca/shared-state')
 app.use(pinia)
+app.use(createVuetify())
 
 const store = useSharedStore()
 // Hidratar con datos mock para desarrollo local

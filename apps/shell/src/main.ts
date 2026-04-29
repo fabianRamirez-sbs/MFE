@@ -16,6 +16,9 @@ import { router } from './router'
 import { initAuth } from '@sipabanca/shared-auth'
 import { useShellStore } from './stores/shell.store'
 import { getStratioToken } from '@sipabanca/shared-http'
+import { createVuetify } from '@sipabanca/shared-ui'
+import 'vuetify/styles'
+import '@mdi/font/css/materialdesignicons.css'
 import './styles/global.scss'
 
 async function bootstrap() {
@@ -43,6 +46,7 @@ async function bootstrap() {
   const pinia = createPinia()
 
   app.use(pinia)
+  app.use(createVuetify())
 
   // 2. Hidratar el store global con los datos del usuario autenticado
   const shellStore = useShellStore()

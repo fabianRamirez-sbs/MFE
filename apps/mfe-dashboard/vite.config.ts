@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vuetify from 'vite-plugin-vuetify'
 import federation from '@originjs/vite-plugin-federation'
 import type { SharedConfig } from '@originjs/vite-plugin-federation'
 import { resolve } from 'path'
@@ -22,6 +23,8 @@ export default defineConfig(({ mode }) => {
     ...baseViteConfig,
     plugins: [
       vue(),
+      // autoImport: true → treeshaking: solo se bundlea lo que usa este MFE
+      vuetify({ autoImport: true }),
       federation({
         name: 'mfe-dashboard',
         filename: 'remoteEntry.js',
@@ -36,6 +39,7 @@ export default defineConfig(({ mode }) => {
           vue: { singleton: true, requiredVersion: '^3.4.0' },
           'vue-router': { singleton: true, requiredVersion: '^4.3.0' },
           pinia: { singleton: true, requiredVersion: '^2.1.0' },
+          vuetify: { singleton: true, requiredVersion: '^3.0.0' },
         },
       }),
     ],
