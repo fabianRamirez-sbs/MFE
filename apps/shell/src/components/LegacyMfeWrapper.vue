@@ -25,10 +25,12 @@ const iframeRef = ref<HTMLIFrameElement | null>(null)
 let bridge: IframeBridge | null = null
 
 // Construir URL del legacy preservando el sub-path
+// pathMatch es string[] cuando hay sub-ruta (/legacy/foo/bar) y "" cuando es solo /legacy
 const legacyUrl = computed(() => {
   const basePath = import.meta.env.VITE_MFE_LEGACY_BASE_URL
-  const subPath = (route.params.pathMatch as string[])?.join('/') ?? ''
-  return `${basePath}/${subPath}`
+  const pathMatch = route.params.pathMatch
+  const subPath = Array.isArray(pathMatch) ? pathMatch.join('/') : (pathMatch ?? '')
+  return subPath ? `${basePath}/${subPath}` : basePath
 })
 
 onMounted(() => {

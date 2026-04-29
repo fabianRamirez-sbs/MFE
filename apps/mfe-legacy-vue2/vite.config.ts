@@ -42,10 +42,17 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3004,
+    port: 3005,
     cors: true,
     headers: {
       // Necesario para que el Shell pueda cargar el remoteEntry
+      'Access-Control-Allow-Origin': '*',
+    },
+  },
+  preview: {
+    port: 3005,
+    cors: true,
+    headers: {
       'Access-Control-Allow-Origin': '*',
     },
   },

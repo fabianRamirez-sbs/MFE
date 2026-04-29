@@ -6,7 +6,31 @@
     <title>SipaBanca — Legacy</title>
   </head>
   <body>
-    <div id="legacy-app"></div>
+    <div id="legacy-app">
+      <!-- Placeholder visible solo en modo standalone (localhost:3005 directo).
+           Cuando el Shell carga este MFE en un iframe, monta la app Vue 2
+           sobre este div y este contenido desaparece. -->
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-family: sans-serif;
+        color: #555;
+        gap: 12px;
+      ">
+        <div style="font-size: 2rem;">🏛️</div>
+        <strong style="font-size: 1.1rem;">SipaBanca — Legacy App</strong>
+        <p style="margin: 0; font-size: 0.9rem; color: #888;">
+          Servidor activo en <code>localhost:3005</code>
+        </p>
+        <p style="margin: 0; font-size: 0.85rem; color: #aaa;">
+          Integración del código Vue 2 pendiente.<br/>
+          Esta app se consume desde el Shell vía iframe.
+        </p>
+      </div>
+    </div>
     <script type="module" src="/src/LegacyAppBridge.js"></script>
   </body>
 </html>
