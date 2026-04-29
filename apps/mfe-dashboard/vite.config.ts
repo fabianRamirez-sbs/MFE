@@ -1,8 +1,19 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import federation from '@originjs/vite-plugin-federation'
+import type { SharedConfig } from '@originjs/vite-plugin-federation'
 import { resolve } from 'path'
 import { baseViteConfig } from '../../vite.config.base'
+
+/**
+ * @originjs/vite-plugin-federation tiene `singleton` comentado en sus tipos
+ * aunque el plugin lo soporta en runtime. Esta augmentación lo restaura.
+ */
+declare module '@originjs/vite-plugin-federation' {
+  interface SharedConfig {
+    singleton?: boolean
+  }
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -25,7 +36,7 @@ export default defineConfig(({ mode }) => {
           vue: { singleton: true, requiredVersion: '^3.4.0' },
           'vue-router': { singleton: true, requiredVersion: '^4.3.0' },
           pinia: { singleton: true, requiredVersion: '^2.1.0' },
-        } as Record<string, unknown>,
+        },
       }),
     ],
     resolve: {

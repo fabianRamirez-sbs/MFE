@@ -17,7 +17,18 @@
 import { defineConfig } from 'vite'
 import vue2 from '@vitejs/plugin-vue2'
 import federation from '@originjs/vite-plugin-federation'
+import type { SharedConfig } from '@originjs/vite-plugin-federation'
 import { resolve } from 'path'
+
+/**
+ * @originjs/vite-plugin-federation tiene `singleton` comentado en sus tipos
+ * aunque el plugin lo soporta en runtime. Esta augmentación lo restaura.
+ */
+declare module '@originjs/vite-plugin-federation' {
+  interface SharedConfig {
+    singleton?: boolean
+  }
+}
 
 export default defineConfig({
   plugins: [
@@ -33,7 +44,7 @@ export default defineConfig({
         // Vue 2 NO puede compartirse con Vue 3 — NO incluir en shared
         // Solo compartir utilidades agnósticas de framework
         axios: { singleton: true },
-      } as Record<string, unknown>,
+      },
     }),
   ],
   resolve: {
