@@ -151,17 +151,32 @@ Todas las instancias (compartidas o propias) incluyen de forma transparente:
 El modo activo determina qué archivo `.env` carga Vite y, por tanto, a qué URLs
 apuntan todas las instancias Axios.
 
-| Comando | Archivo `.env` cargado | APIs heredadas SipaNew |
+| Comando | Archivo `.env` cargado | Equivalente en SipaNew |
 |---|---|---|
-| `npm run dev:all` | `.env.development` | `localhost` (servicios levantados localmente) |
-| `npm run dev:all:remote` | `.env.development-remote` | `devsyli.sbseguros.co` (servidores de certificación) |
+| `npm run dev:all` | `.env.development` | `dev-local.env.js` |
+| `npm run dev:all:remote` | `.env.development-remote` | `dev-pre.env.js` |
 
-> **Equivalencia con SipaNew**
-> - `npm run dev:all` → `dev-local.env.js`
-> - `npm run dev:all:remote` → `dev-pre.env.js`
+### Diferencias entre los dos modos
 
-En ambos casos los MFEs siguen corriendo en `localhost` — solo cambian las URLs
-de los backends heredados.
+| | `dev:all` (local) | `dev:all:remote` (remoto) |
+|---|---|---|
+| **Auth Mock** | `true` — sin necesidad de Keycloak | `false` — usa Keycloak real de certificación |
+| **Keycloak** | `localhost:8080` / realm `sipabanca` | `sbs-sso.modyo.be` / realm `escritorio-virtual` |
+| **APIs nuevas MFE** | `localhost:809x` | `api.cert.sipabanca.com` |
+| **APIs heredadas SipaNew** | `localhost:809x` (cada servicio en su puerto) | `devsyli.sbseguros.co` |
+| **MFEs** | `localhost` (mismo en ambos modos) | `localhost` (mismo en ambos modos) |
+
+### Cuándo usar cada modo
+
+**`npm run dev:all`** — desarrollo de features nuevas sin dependencias externas:
+- No requiere VPN ni acceso a internet para los backends
+- El mock de auth evita tener que configurar Keycloak
+- Requiere levantar los microservicios localmente
+
+**`npm run dev:all:remote`** — integración contra el servidor de certificación:
+- No es necesario levantar ningún microservicio localmente
+- Útil para probar con datos reales del servidor
+- Requiere acceso a `devsyli.sbseguros.co` y credenciales de Keycloak válidas
 
 ---
 

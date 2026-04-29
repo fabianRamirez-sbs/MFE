@@ -5,12 +5,12 @@ dist/
 *.local
 
 # Archivos .env con valores reales — NUNCA al repositorio
-.env.development
-.env.development-remote
-.env.certification
-.env.production
-.env.local
-.env.*.local
+# .env.development
+# .env.development-remote
+# .env.certification
+# .env.production
+# .env.local
+# .env.*.local
 
 # Solo se commitea la plantilla sin valores
 # .env.example  ← este SÍ va al repo

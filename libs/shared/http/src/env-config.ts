@@ -26,6 +26,24 @@ export interface EnvConfig {
   }
 
   /**
+   * Credenciales Stratio para generación de tokens.
+   * Disponibles en todos los entornos (prod usa credenciales reales, dev/cert usan test).
+   */
+  stratio: {
+    user: string
+    password: string
+  }
+
+  /**
+   * Usuario de prueba para datos precargados.
+   * Solo disponible en development y certification (no en production).
+   */
+  devUser: {
+    name: string
+    email: string
+  }
+
+  /**
    * Registro de URLs base de las APIs de backend.
    * Cada clave corresponde a un microservicio.
    * Consumir via:  createHttpClient({ service: 'accounts' })
@@ -104,6 +122,16 @@ export const env: EnvConfig = {
     url: requireEnv('VITE_KEYCLOAK_URL'),
     realm: requireEnv('VITE_KEYCLOAK_REALM'),
     clientId: requireEnv('VITE_KEYCLOAK_CLIENT_ID'),
+  },
+
+  stratio: {
+    user: requireEnv('VITE_STRATIO_USER'),
+    password: requireEnv('VITE_STRATIO_PASSWORD'),
+  },
+
+  devUser: {
+    name: import.meta.env.VITE_DEV_DATUSER_USER ?? '',
+    email: import.meta.env.VITE_DEV_DATUSER_EMAIL ?? '',
   },
 
   api: {
