@@ -36,9 +36,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useShellStore } from '../stores/shell.store'
-import { integrationHttp } from '@sipabanca/shared-http'
-import { getStratioToken } from '@sipabanca/shared-http'
-import type { UserApp, SelectedApp } from '@sipabanca/shared-types'
+import { integrationHttp, getStratioToken } from '@sipabanca/shared-http'
+import type { UserApp, SelectedApp, LoginSessionResult } from '@sipabanca/shared-types'
 
 const router = useRouter()
 const shellStore = useShellStore()
@@ -99,9 +98,9 @@ async function selectApp(app: UserApp) {
   try {
     const stratioToken = await getStratioToken()
 
-    // login2: establece la sesión del usuario para la aplicación seleccionada
-    await integrationHttp.post(
-      '/api/v1/sbs/login2',
+    // login: establece la sesión del usuario para la aplicación seleccionada
+    const { data } = await integrationHttp.post<{ resultObject: LoginSessionResult }>(
+      '/api/v1/sbs/login',
       {
         user: shellStore.userProfile?.fullName,
         email: shellStore.userProfile?.email,
@@ -110,14 +109,21 @@ async function selectApp(app: UserApp) {
       { headers: { Authorization: `Bearer ${stratioToken}` } }
     )
 
+    const result = data.resultObject
+
+    if (result.resultCode !== 1) {
+      throw new Error(result.status?.message ?? 'El servidor rechazó la solicitud de login')
+    }
+
     const selected: SelectedApp = {
       applicationCode: app.applicationCode,
-      profileCode: app.profileCode,
+      profileCode: result.profileApp?.profileCode ?? app.profileCode,
       applicationDescription: app.applicationDescription,
       profileDescription: app.profileDescription,
     }
 
     shellStore.setSelectedApp(selected)
+    shellStore.setUserSession(result)
 
     router.push('/dashboard')
   } catch (err) {

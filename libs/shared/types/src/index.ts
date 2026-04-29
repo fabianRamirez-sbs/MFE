@@ -61,3 +61,64 @@ export interface SelectedApp {
   applicationDescription: string
   profileDescription: string
 }
+
+// ── Menú dinámico (resultado de POST /api/v1/sbs/login) ─────────────────────
+
+/** Ruta de componente registrada dinámicamente en el router del Shell */
+export interface AppComponent {
+  /** Segmento de URL, ej: "polizas/nueva" */
+  path: string
+  /** Ruta relativa al directorio views del legacy, ej: "views/Polizas/Nueva" */
+  component: string
+  /** Nombre de la ruta para vue-router */
+  name: string
+}
+
+/** Información del módulo padre en el menú lateral */
+export interface ModuleApp {
+  moduleTitle: string
+  /** Nombre del archivo de ícono dentro de /assets/images/nav/ */
+  image: string
+}
+
+/** Sub-módulo dentro de un grupo de menú */
+export interface SubModuleApp {
+  moduleTitle: string
+  image: string
+}
+
+/** Entrada de sub-módulo con su componente asociado */
+export interface SubModuleEntry {
+  subModuleApp: SubModuleApp
+  appComponent: AppComponent
+}
+
+/**
+ * Grupo de menú con sus sub-módulos.
+ * Mapea `resultObject.moduleProfileAppAuthenticate` del endpoint
+ * POST /api-int/api/v1/sbs/login.
+ */
+export interface ModuleMenu {
+  moduleApp: ModuleApp
+  subModuleProfileAppAuthenticate: SubModuleEntry[]
+}
+
+/**
+ * Resultado relevante del endpoint POST /api-int/api/v1/sbs/login.
+ * El servidor retorna { resultObject: LoginSessionResult }.
+ */
+export interface LoginSessionResult {
+  resultCode: number
+  person: Record<string, unknown>
+  appComponents: AppComponent[]
+  moduleProfileAppAuthenticate: ModuleMenu[]
+  profileApp: {
+    profileCode: number
+    applicationCode: number
+  }
+  userAppId: number
+  status?: {
+    code: string
+    message: string
+  }
+}

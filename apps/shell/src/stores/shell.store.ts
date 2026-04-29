@@ -12,7 +12,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { KeycloakInstance } from 'keycloak-js'
 import type { AuthResult } from '@sipabanca/shared-auth'
-import type { UserProfile, UserPreferences, SelectedApp } from '@sipabanca/shared-types'
+import type { UserProfile, UserPreferences, SelectedApp, ModuleMenu, AppComponent, LoginSessionResult } from '@sipabanca/shared-types'
 
 export const useShellStore = defineStore('shell', () => {
   // --- State ---
@@ -25,6 +25,8 @@ export const useShellStore = defineStore('shell', () => {
     currency: 'PEN',
   })
   const selectedApp = ref<SelectedApp | null>(null)
+  const userModules = ref<ModuleMenu[]>([])
+  const appComponents = ref<AppComponent[]>([])
 
   // --- Getters ---
   const userRoles = computed(() => userProfile.value?.roles ?? [])
@@ -77,11 +79,22 @@ export const useShellStore = defineStore('shell', () => {
     selectedApp.value = app
   }
 
+  /**
+   * setUserSession — Almacena menú y rutas del usuario tras el login empresarial.
+   * Llamar después de POST /api-int/api/v1/sbs/login con resultCode === 1.
+   */
+  function setUserSession(result: LoginSessionResult) {
+    userModules.value = result.moduleProfileAppAuthenticate ?? []
+    appComponents.value = result.appComponents ?? []
+  }
+
   function logout() {
     userProfile.value = null
     accessToken.value = null
     isAuthenticated.value = false
     selectedApp.value = null
+    userModules.value = []
+    appComponents.value = []
   }
 
   return {
@@ -90,6 +103,8 @@ export const useShellStore = defineStore('shell', () => {
     isAuthenticated,
     preferences,
     selectedApp,
+    userModules,
+    appComponents,
     userRoles,
     hasRole,
     initFromAuth,
@@ -97,6 +112,7 @@ export const useShellStore = defineStore('shell', () => {
     setToken,
     updatePreferences,
     setSelectedApp,
+    setUserSession,
     logout,
   }
 })
