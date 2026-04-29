@@ -31,6 +31,9 @@ export const baseViteConfig: UserConfig = {
   css: {
     preprocessorOptions: {
       scss: {
+        // Usar la API moderna de Dart Sass (evita el warning "legacy-js-api")
+        // Requiere sass-embedded ≥ 1.45 o sass ≥ 1.45
+        api: 'modern-compiler' as const,
         // Variables globales disponibles en todos los componentes
         additionalData: `@use "@sipabanca/shared-ui/styles/tokens" as *;`,
       },
