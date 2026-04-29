@@ -28,13 +28,37 @@ export interface EnvConfig {
   /**
    * Registro de URLs base de las APIs de backend.
    * Cada clave corresponde a un microservicio.
-   * Consumir via:  createHttpClient(env.api.accounts)
+   * Consumir via:  createHttpClient({ service: 'accounts' })
    */
   api: {
+    // ── Nuevos servicios MFE ──────────────────────────────────────────────
     core: string
     accounts: string
     transfers: string
     notifications: string
+    // ── APIs heredadas de SipaNew (migradas desde prod.env.js / pre.env.js) ─
+    /** api-int: servicios de integración principal (PRODUCTION_URLSERVICES) */
+    integration: string
+    /** Modyo: portal de integración (PRODUCTION_URLSBSMODYO) */
+    modyo: string
+    /** api-biz: diccionarios de negocio (PRODUCTION_URLDICTIONARIES) */
+    dictionaries: string
+    /** api-auth: autenticación Stratio (PRODUCTION_URLSTRATIO) */
+    stratioAuth: string
+    /** api-rpt: reportes (PRODUCTION_URLREPORTES) */
+    reports: string
+    /** api-dict: diccionario DAAS (PRODUCTION_URLDAASDICTIONARY) */
+    daasDictionary: string
+    /** sbs-api-fileProcessing: procesamiento de archivos (PRODUCTION_URLFILEPROCESSING) */
+    fileProcessing: string
+    /** api-sipa: servicio SIPA (PRODUCTION_URLAPISIPA) */
+    sipa: string
+    /** api-web: API web (DEVELOP_URLAPIWEB) */
+    web: string
+    /** sbs-api-certifier principal (PRODUCTION_URLAPICERTIFIER) */
+    certifier: string
+    /** sbs-api-certifier SBS variante (DEVELOP_URLSBSAPICERTIFIER) */
+    certifierSbs: string
   }
 
   /**
@@ -87,6 +111,17 @@ export const env: EnvConfig = {
     accounts: requireEnv('VITE_API_ACCOUNTS_URL'),
     transfers: requireEnv('VITE_API_TRANSFERS_URL'),
     notifications: requireEnv('VITE_API_NOTIFICATIONS_URL'),
+    integration: requireEnv('VITE_API_INTEGRATION_URL'),
+    modyo: requireEnv('VITE_API_MODYO_URL'),
+    dictionaries: requireEnv('VITE_API_DICTIONARIES_URL'),
+    stratioAuth: requireEnv('VITE_API_STRATIO_AUTH_URL'),
+    reports: requireEnv('VITE_API_REPORTS_URL'),
+    daasDictionary: requireEnv('VITE_API_DAAS_DICTIONARY_URL'),
+    fileProcessing: requireEnv('VITE_API_FILE_PROCESSING_URL'),
+    sipa: requireEnv('VITE_API_SIPA_URL'),
+    web: requireEnv('VITE_API_WEB_URL'),
+    certifier: requireEnv('VITE_API_CERTIFIER_URL'),
+    certifierSbs: requireEnv('VITE_API_CERTIFIER_SBS_URL'),
   },
 
   mfe: {

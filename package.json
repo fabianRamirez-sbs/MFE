@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "npx vite build apps/mfe-dashboard --mode development && concurrently \"npx vite preview apps/mfe-dashboard --port 3002\" \"npx vite --root apps/shell --port 3001\" --names \"dashboard,shell\" --prefix-colors \"cyan,green\" --kill-others",
     "dev:all": "bash tools/scripts/dev-all.sh",
+    "dev:all:remote": "bash tools/scripts/dev-all.sh development-remote",
     "kill:ports": "bash tools/scripts/kill-ports.sh",
     "start:shell": "npx vite preview apps/shell --port 3001",
     "start:dashboard": "npx vite preview apps/mfe-dashboard --port 3002",

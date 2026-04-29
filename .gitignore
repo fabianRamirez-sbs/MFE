@@ -6,6 +6,7 @@ dist/
 
 # Archivos .env con valores reales — NUNCA al repositorio
 .env.development
+.env.development-remote
 .env.certification
 .env.production
 .env.local

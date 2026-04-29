@@ -22,6 +22,9 @@
         "development": {
           "mode": "development"
         },
+        "development-remote": {
+          "mode": "development-remote"
+        },
         "certification": {
           "mode": "certification"
         },
@@ -35,6 +38,9 @@
       "configurations": {
         "development": {
           "mode": "development"
+        },
+        "development-remote": {
+          "mode": "development-remote"
         },
         "certification": {
           "mode": "certification"

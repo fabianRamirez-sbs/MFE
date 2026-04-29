@@ -16,7 +16,9 @@
 #     siempre funciona en desarrollo local.
 
 set -uo pipefail
-
+# Primer argumento opcional: modo Vite (development | development-remote | certification)
+# Ejemplo: bash dev-all.sh development-remote
+VITE_MODE="${1:-development}"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../" && pwd)"
 APPS_DIR="$ROOT_DIR/apps"
 NVM_SCRIPT="$HOME/.nvm/nvm.sh"
@@ -100,6 +102,8 @@ echo "╔═══════════════════════�
 echo "║    SipaBanca MFE — Entorno de desarrollo completo      ║"
 echo "╚════════════════════════════════════════════════════════╝"
 echo ""
+echo "Modo: $VITE_MODE  (.env.$VITE_MODE)"
+echo ""
 echo "Apps detectadas:"
 for dir in "${REMOTE_DIRS[@]}"; do
   name=$(basename "$dir")
@@ -123,7 +127,7 @@ BUILD_NAMES=()
 for dir in "${REMOTE_DIRS[@]}"; do
   name=$(basename "$dir")
   node_ver=$(node_version_for "$dir")
-  build_app "$dir" "$name" "$node_ver" "development" &
+  build_app "$dir" "$name" "$node_ver" "$VITE_MODE" &
   BUILD_PIDS+=($!)
   BUILD_NAMES+=("$name")
 done
