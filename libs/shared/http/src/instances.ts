@@ -11,12 +11,14 @@
 import { createHttpClient } from './http-client'
 
 // ── Nuevos servicios MFE ──────────────────────────────────────────────────────
-export const coreHttp          = createHttpClient({ service: 'core' })
-export const accountsHttp      = createHttpClient({ service: 'accounts' })
-export const transfersHttp     = createHttpClient({ service: 'transfers' })
-export const notificationsHttp = createHttpClient({ service: 'notifications' })
+// includeClientHeader: true → estos backends sí permiten X-Client-App en CORS
+export const coreHttp          = createHttpClient({ service: 'core', includeClientHeader: true })
+export const accountsHttp      = createHttpClient({ service: 'accounts', includeClientHeader: true })
+export const transfersHttp     = createHttpClient({ service: 'transfers', includeClientHeader: true })
+export const notificationsHttp = createHttpClient({ service: 'notifications', includeClientHeader: true })
 
 // ── APIs heredadas de SipaNew ─────────────────────────────────────────────────
+// Sin includeClientHeader → los backends legacy rechazan X-Client-App en CORS
 /** api-int — servicios de integración principal (PRODUCTION_URLSERVICES) */
 export const integrationHttp   = createHttpClient({ service: 'integration' })
 /** Modyo — portal de integración (PRODUCTION_URLSBSMODYO) */

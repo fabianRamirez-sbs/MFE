@@ -15,11 +15,19 @@ import LoginView from '../views/LoginView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import UnauthorizedView from '../views/UnauthorizedView.vue'
 import ComingSoonView from '../views/ComingSoonView.vue'
+import AppSelectView from '../views/AppSelectView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/app-select',
+  },
+  {
+    path: '/app-select',
+    name: 'app-select',
+    component: AppSelectView,
+    // Solo accesible cuando el usuario está autenticado pero aún no eligió app
+    meta: { requiresAuth: true },
   },
   {
     path: '/login',
@@ -82,6 +90,11 @@ router.beforeEach((to, _from) => {
 
   if (!shellStore.isAuthenticated) {
     return { name: 'login' }
+  }
+
+  // Usuario autenticado pero sin app seleccionada → forzar /app-select
+  if (!shellStore.selectedApp && to.name !== 'app-select') {
+    return { name: 'app-select' }
   }
 
   const requiredRoles = (to.meta.requiredRoles as string[]) ?? []

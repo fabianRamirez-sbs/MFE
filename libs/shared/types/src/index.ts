@@ -39,3 +39,25 @@ export interface MfeManifest {
   routes: string[]
   requiredRoles: string[]
 }
+
+/**
+ * Aplicación/perfil disponible para el usuario autenticado.
+ * Se obtiene de GET /api-int/api/v1/sbs/getUserApp/user/{fullName}
+ */
+export interface UserApp {
+  applicationCode: number
+  profileCode: number
+  applicationDescription: string
+  profileDescription: string
+}
+
+/**
+ * Aplicación seleccionada por el usuario en el PreLogin.
+ * Se persiste en el store global para que todos los MFEs puedan leerla.
+ */
+export interface SelectedApp {
+  applicationCode: number
+  profileCode: number
+  applicationDescription: string
+  profileDescription: string
+}

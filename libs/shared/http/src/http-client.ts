@@ -31,6 +31,12 @@ export interface HttpClientConfig {
   baseURL?: string
   /** Headers adicionales específicos del MFE */
   headers?: Record<string, string>
+  /**
+   * Añade el header X-Client-App: sipabanca-mfe.
+   * Activar solo para APIs nuevas (core, accounts, transfers, notifications).
+   * Los backends legacy (api-int, api-sipa, etc.) rechazan este header en CORS.
+   */
+  includeClientHeader?: boolean
 }
 
 export function createHttpClient(config: HttpClientConfig): AxiosInstance {
@@ -48,7 +54,7 @@ export function createHttpClient(config: HttpClientConfig): AxiosInstance {
     timeout: env.httpTimeoutMs,
     headers: {
       'Content-Type': 'application/json',
-      'X-Client-App': 'sipabanca-mfe',
+      ...(config.includeClientHeader ? { 'X-Client-App': 'sipabanca-mfe' } : {}),
       ...config.headers,
     },
   })
@@ -56,7 +62,10 @@ export function createHttpClient(config: HttpClientConfig): AxiosInstance {
   // Interceptor de REQUEST: inyectar el token JWT
   instance.interceptors.request.use((req: InternalAxiosRequestConfig) => {
     const store = useSharedStore()
-    if (store.accessToken) {
+    // Solo inyectar si el caller no pasó un Authorization explícito.
+    // Esto permite que endpoints como getUserApp usen el token Stratio
+    // en lugar del token Keycloak sin que el interceptor lo sobreescriba.
+    if (store.accessToken && !req.headers.Authorization) {
       req.headers.Authorization = `Bearer ${store.accessToken}`
     }
     return req

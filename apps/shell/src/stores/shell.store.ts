@@ -12,7 +12,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { KeycloakInstance } from 'keycloak-js'
 import type { AuthResult } from '@sipabanca/shared-auth'
-import type { UserProfile, UserPreferences } from '@sipabanca/shared-types'
+import type { UserProfile, UserPreferences, SelectedApp } from '@sipabanca/shared-types'
 
 export const useShellStore = defineStore('shell', () => {
   // --- State ---
@@ -24,6 +24,7 @@ export const useShellStore = defineStore('shell', () => {
     theme: 'light',
     currency: 'PEN',
   })
+  const selectedApp = ref<SelectedApp | null>(null)
 
   // --- Getters ---
   const userRoles = computed(() => userProfile.value?.roles ?? [])
@@ -72,10 +73,15 @@ export const useShellStore = defineStore('shell', () => {
     preferences.value = { ...preferences.value, ...patch }
   }
 
+  function setSelectedApp(app: SelectedApp) {
+    selectedApp.value = app
+  }
+
   function logout() {
     userProfile.value = null
     accessToken.value = null
     isAuthenticated.value = false
+    selectedApp.value = null
   }
 
   return {
@@ -83,12 +89,14 @@ export const useShellStore = defineStore('shell', () => {
     accessToken,
     isAuthenticated,
     preferences,
+    selectedApp,
     userRoles,
     hasRole,
     initFromAuth,
     initFromKeycloak,
     setToken,
     updatePreferences,
+    setSelectedApp,
     logout,
   }
 })
