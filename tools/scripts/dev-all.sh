@@ -171,9 +171,9 @@ for dir in "${REMOTE_DIRS[@]}"; do
   NAMES+=("$name")
 done
 
-# Shell: dev server — lee .env.development en tiempo real
-echo "  • shell → http://localhost:$shell_port  [dev server]  ← abrir en el navegador"
-CMDS+=("cd \"$SHELL_DIR\" && . \"$NVM_SCRIPT\" && nvm use $shell_node --silent && npx vite --port $shell_port --host")
+# Shell: dev server — lee .env.$VITE_MODE en tiempo real
+echo "  • shell → http://localhost:$shell_port  [dev server, modo: $VITE_MODE]  ← abrir en el navegador"
+CMDS+=("cd \"$SHELL_DIR\" && . \"$NVM_SCRIPT\" && nvm use $shell_node --silent && npx vite --port $shell_port --host --mode $VITE_MODE")
 NAMES+=("shell")
 
 echo ""

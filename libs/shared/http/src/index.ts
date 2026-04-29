@@ -19,3 +19,4 @@ export {
   certifierHttp,
   certifierSbsHttp,
 } from './instances'
+export { getStratioToken, clearStratioTokenCache } from './stratio-auth'

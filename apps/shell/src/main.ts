@@ -15,20 +15,29 @@ import App from './App.vue'
 import { router } from './router'
 import { initAuth } from '@sipabanca/shared-auth'
 import { useShellStore } from './stores/shell.store'
+import { getStratioToken } from '@sipabanca/shared-http'
 import './styles/global.scss'
 
 async function bootstrap() {
-  // 1. Autenticar (mock local o Keycloak real según el entorno)
-  const auth = await initAuth({
-    url: import.meta.env.VITE_KEYCLOAK_URL,
-    realm: import.meta.env.VITE_KEYCLOAK_REALM,
-    clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
-    logoutRedirectUri: import.meta.env.VITE_KEYCLOAK_LOGOUT_REDIRECT_URI,
-    onTokenRefreshed: (token) => {
-      // Propagar el token actualizado a todos los MFEs via el store
-      shellStore.setToken(token)
-    },
-  })
+  // 1. Autenticar en paralelo: Keycloak + Stratio (son independientes)
+  const [auth] = await Promise.all([
+    initAuth({
+      url: import.meta.env.VITE_KEYCLOAK_URL,
+      realm: import.meta.env.VITE_KEYCLOAK_REALM,
+      clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+      logoutRedirectUri: import.meta.env.VITE_KEYCLOAK_LOGOUT_REDIRECT_URI,
+      onTokenRefreshed: (token) => {
+        shellStore.setToken(token)
+      },
+    }),
+    // Obtener token Stratio solo si el backend no es localhost
+    // (en development local los backends no están levantados)
+    !import.meta.env.VITE_API_STRATIO_AUTH_URL?.includes('localhost')
+      ? getStratioToken().catch((err) => {
+          console.warn('[bootstrap] No se pudo obtener el token Stratio:', err)
+        })
+      : Promise.resolve(),
+  ])
 
   const app = createApp(App)
   const pinia = createPinia()
