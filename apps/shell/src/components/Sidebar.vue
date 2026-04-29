@@ -5,6 +5,7 @@
       <router-link v-if="hasRole('user')" to="/accounts">Cuentas</router-link>
       <router-link v-if="hasRole('transfers')" to="/transfers">Transferencias</router-link>
       <router-link v-if="hasRole('user')" to="/legacy">Legacy</router-link>
+      <router-link v-if="hasRole('user')" to="/sipa-new">SipaNew</router-link>
     </nav>
   </aside>
 </template>

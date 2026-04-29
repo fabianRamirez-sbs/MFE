@@ -52,6 +52,17 @@ async function bootstrap() {
   const shellStore = useShellStore()
   shellStore.initFromAuth(auth)
 
+  // En modo mock (desarrollo local) no existe flujo AppSelectView —
+  // se establece una app dummy para que el navigation guard no bloquee la navegación.
+  if (auth.isMock) {
+    shellStore.setSelectedApp({
+      applicationCode: 0,
+      profileCode: 0,
+      applicationDescription: 'Dev Mock',
+      profileDescription: 'Desarrollo local',
+    })
+  }
+
   // 3. Registrar router con guards de autenticación
   app.use(router)
 

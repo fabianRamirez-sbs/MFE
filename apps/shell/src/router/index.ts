@@ -64,6 +64,13 @@ const routes: RouteRecordRaw[] = [
     meta: { requiredRoles: ['user'] },
   },
   {
+    // Ruta para SipaNew (webpack Vue 2) — cargado vía iframe
+    path: '/sipa-new/:pathMatch(.*)*',
+    name: 'sipa-new',
+    component: () => import('../views/MfeSipaNewView.vue'),
+    meta: { requiredRoles: ['user'] },
+  },
+  {
     path: '/unauthorized',
     name: 'unauthorized',
     component: UnauthorizedView,

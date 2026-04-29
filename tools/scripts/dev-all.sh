@@ -80,14 +80,18 @@ build_app() {
 
 SHELL_DIR=""
 declare -a REMOTE_DIRS=()
+declare -a WEBPACK_DIRS=()
 
 for dir in "$APPS_DIR"/*/; do
-  [[ -f "$dir/vite.config.ts" ]] || continue
   name=$(basename "$dir")
-  if [[ "$name" == "shell" ]]; then
-    SHELL_DIR="${dir%/}"
-  else
-    REMOTE_DIRS+=("${dir%/}")
+  if [[ -f "$dir/vite.config.ts" ]]; then
+    if [[ "$name" == "shell" ]]; then
+      SHELL_DIR="${dir%/}"
+    else
+      REMOTE_DIRS+=("${dir%/}")
+    fi
+  elif [[ -f "$dir/build/webpack.dev.conf.js" ]]; then
+    WEBPACK_DIRS+=("${dir%/}")
   fi
 done
 
@@ -95,6 +99,13 @@ if [[ -z "$SHELL_DIR" ]]; then
   echo "ERROR: No se encontró apps/shell/ con vite.config.ts"
   exit 1
 fi
+
+webpack_port_for() {
+  local dir="$1"
+  local cfg="$dir/config/index.js"
+  [[ -f "$cfg" ]] || { echo ""; return; }
+  grep -E "^\s+port:" "$cfg" | grep -oE '[0-9]+' | head -1
+}
 
 # ─── Banner ──────────────────────────────────────────────────────────────────
 echo ""
@@ -110,6 +121,12 @@ for dir in "${REMOTE_DIRS[@]}"; do
   port=$(preview_port_for "$dir")
   node_ver=$(node_version_for "$dir")
   echo "  • $name  (Node $node_ver, preview puerto ${port:-?})"
+done
+for dir in "${WEBPACK_DIRS[@]}"; do
+  name=$(basename "$dir")
+  port=$(webpack_port_for "$dir")
+  node_ver=$(node_version_for "$dir")
+  echo "  • $name  (Node $node_ver, webpack-dev-server puerto ${port:-?})  [legacy]"
 done
 shell_port=$(preview_port_for "$SHELL_DIR")
 shell_node=$(node_version_for "$SHELL_DIR")
@@ -168,6 +185,16 @@ for dir in "${REMOTE_DIRS[@]}"; do
 
   echo "  • $name → http://localhost:$port  [preview]"
   CMDS+=("cd \"$dir\" && . \"$NVM_SCRIPT\" && nvm use $node_ver --silent && npx vite preview --port $port --host")
+  NAMES+=("$name")
+done
+
+# Apps legacy webpack — inician directamente con npm run dev
+for dir in "${WEBPACK_DIRS[@]}"; do
+  name=$(basename "$dir")
+  port=$(webpack_port_for "$dir")
+  node_ver=$(node_version_for "$dir")
+  echo "  • $name → http://localhost:${port:-?}  [webpack-dev-server]  [legacy]"
+  CMDS+=("cd \"$dir\" && . \"$NVM_SCRIPT\" && nvm use $node_ver --silent && npm run dev")
   NAMES+=("$name")
 done
 
