@@ -1,0 +1,33 @@
+/**
+ * global.scss — Estilos base del Shell
+ *
+ * Importa los design tokens del sistema de diseño compartido
+ * y establece el reset/base global de la aplicación.
+ */
+@use '@sipabanca/shared-ui/styles/tokens' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--sb-color-background, #f5f7fa);
+  color: var(--sb-color-text-primary, #1a1a2e);
+  line-height: 1.5;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

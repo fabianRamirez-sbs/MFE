@@ -1,0 +1,65 @@
+{
+  "name": "sipabanca-mfe",
+  "version": "0.0.1",
+  "private": true,
+  "description": "SipaBanca - Plataforma Micro-Frontend con Nx + Vite + Module Federation",
+  "workspaces": [
+    "apps/*",
+    "libs/shared/*"
+  ],
+  "scripts": {
+    "dev": "npx vite build apps/mfe-dashboard --mode development && npx vite build apps/shell --mode development && concurrently \"npx vite preview apps/mfe-dashboard --port 3002\" \"npx vite preview apps/shell --port 3001\" --names \"dashboard,shell\" --prefix-colors \"cyan,green\" --kill-others",
+    "start:shell": "npx vite preview apps/shell --port 3001",
+    "start:dashboard": "npx vite preview apps/mfe-dashboard --port 3002",
+    "build:dashboard": "npx vite build apps/mfe-dashboard",
+    "start:accounts": "nx serve mfe-accounts",
+    "start:transfers": "nx serve mfe-transfers",
+    "start:legacy": "nx serve mfe-legacy-vue2",
+    "start:all": "nx run-many --target=serve --all --parallel",
+    "build:all": "nx run-many --target=build --all",
+    "build:shell": "nx build shell",
+    "test:all": "nx run-many --target=test --all",
+    "lint:all": "nx run-many --target=lint --all",
+    "affected:build": "nx affected --target=build",
+    "affected:test": "nx affected --target=test",
+    "graph": "nx graph",
+    "generate:mfe": "nx g @sipabanca/nx-plugin:mfe"
+  },
+  "devDependencies": {
+    "@nx/eslint": "^19.0.0",
+    "@nx/eslint-plugin": "^19.0.0",
+    "@nx/js": "^19.0.0",
+    "@nx/vite": "^19.0.0",
+    "@nx/workspace": "^19.0.0",
+    "@originjs/vite-plugin-federation": "^1.3.5",
+    "@vitejs/plugin-vue": "^5.1.0",
+    "@vue/test-utils": "^2.4.0",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "nx": "^19.0.0",
+    "prettier": "^3.3.0",
+    "sass-embedded": "^1.99.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.3.0",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "keycloak-js": "^25.0.0",
+    "pinia": "^2.1.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}

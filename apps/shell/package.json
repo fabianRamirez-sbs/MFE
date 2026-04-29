@@ -1,0 +1,23 @@
+{
+  "name": "shell",
+  "version": "0.0.1",
+  "description": "SipaBanca Shell — Orquestador principal de la plataforma MFE",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview --port 3000",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts,.vue"
+  },
+  "dependencies": {
+    "keycloak-js": "^25.0.0",
+    "pinia": "^2.1.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "@sipabanca/shared-auth": "*",
+    "@sipabanca/shared-state": "*",
+    "@sipabanca/shared-http": "*",
+    "@sipabanca/shared-ui": "*"
+  }
+}

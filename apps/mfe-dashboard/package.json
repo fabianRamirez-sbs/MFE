@@ -1,0 +1,21 @@
+{
+  "name": "@sipabanca/mfe-dashboard",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3001",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview --port 3001"
+  },
+  "dependencies": {
+    "pinia": "^2.1.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "@sipabanca/shared-auth": "*",
+    "@sipabanca/shared-http": "*",
+    "@sipabanca/shared-state": "*",
+    "@sipabanca/shared-types": "*",
+    "@sipabanca/shared-ui": "*"
+  }
+}

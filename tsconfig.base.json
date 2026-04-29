@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "files": ["env.d.ts"],
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strict": true,
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "paths": {
+      "@sipabanca/shared-auth": ["libs/shared/auth/src/index.ts"],
+      "@sipabanca/shared-state": ["libs/shared/state/src/index.ts"],
+      "@sipabanca/shared-http": ["libs/shared/http/src/index.ts"],
+      "@sipabanca/shared-ui": ["libs/shared/ui/src/index.ts"],
+      "@sipabanca/shared-utils": ["libs/shared/utils/src/index.ts"],
+      "@sipabanca/shared-types": ["libs/shared/types/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

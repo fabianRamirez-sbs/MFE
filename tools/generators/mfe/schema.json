@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "@sipabanca/nx-plugin:mfe",
+  "title": "Crear nuevo MFE Vue 3",
+  "description": "Genera la estructura estándar para un nuevo Micro-Frontend Vue 3",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre del MFE (ej: mfe-payments). Debe empezar con 'mfe-'",
+      "pattern": "^mfe-[a-z][a-z0-9-]*$"
+    },
+    "port": {
+      "type": "number",
+      "description": "Puerto de desarrollo (3001-3099)",
+      "minimum": 3001,
+      "maximum": 3099
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripción del módulo"
+    }
+  },
+  "required": ["name", "port"]
+}

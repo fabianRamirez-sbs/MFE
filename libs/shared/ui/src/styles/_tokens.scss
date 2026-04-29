@@ -1,0 +1,72 @@
+/**
+ * Design Tokens — SipaBanca
+ * Fuente única de verdad para colores, tipografía, espaciado y sombras.
+ * Disponibles como variables CSS (--token-name) y como módulo SCSS.
+ */
+
+// ─── Paleta de color ────────────────────────────────────────────────────────
+$color-primary-50:  #eff6ff;
+$color-primary-100: #dbeafe;
+$color-primary-500: #3b82f6;
+$color-primary-600: #2563eb;
+$color-primary-700: #1d4ed8;
+$color-primary-900: #1e3a8a;
+
+$color-success-500: #22c55e;
+$color-warning-500: #f59e0b;
+$color-danger-500:  #ef4444;
+
+$color-neutral-50:  #f9fafb;
+$color-neutral-100: #f3f4f6;
+$color-neutral-200: #e5e7eb;
+$color-neutral-700: #374151;
+$color-neutral-900: #111827;
+
+// ─── Tipografía ─────────────────────────────────────────────────────────────
+$font-family-base:  'Inter', system-ui, -apple-system, sans-serif;
+$font-family-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+$font-size-xs:   0.75rem;   // 12px
+$font-size-sm:   0.875rem;  // 14px
+$font-size-base: 1rem;      // 16px
+$font-size-lg:   1.125rem;  // 18px
+$font-size-xl:   1.25rem;   // 20px
+$font-size-2xl:  1.5rem;    // 24px
+
+// ─── Espaciado (escala 4px) ──────────────────────────────────────────────────
+$spacing-1:  0.25rem;  // 4px
+$spacing-2:  0.5rem;   // 8px
+$spacing-3:  0.75rem;  // 12px
+$spacing-4:  1rem;     // 16px
+$spacing-6:  1.5rem;   // 24px
+$spacing-8:  2rem;     // 32px
+$spacing-12: 3rem;     // 48px
+
+// ─── Bordes ──────────────────────────────────────────────────────────────────
+$border-radius-sm: 0.25rem;
+$border-radius:    0.5rem;
+$border-radius-lg: 0.75rem;
+$border-radius-xl: 1rem;
+$border-radius-full: 9999px;
+
+// ─── Sombras ─────────────────────────────────────────────────────────────────
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow:    0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+// ─── Variables CSS globales (inyectadas en :root) ────────────────────────────
+:root {
+  --color-primary: #{$color-primary-600};
+  --color-primary-hover: #{$color-primary-700};
+  --color-success: #{$color-success-500};
+  --color-warning: #{$color-warning-500};
+  --color-danger: #{$color-danger-500};
+  --color-text-primary: #{$color-neutral-900};
+  --color-text-secondary: #{$color-neutral-700};
+  --color-bg: #{$color-neutral-50};
+  --color-border: #{$color-neutral-200};
+  --font-family-base: #{$font-family-base};
+  --spacing-4: #{$spacing-4};
+  --border-radius: #{$border-radius};
+  --shadow: #{$shadow};
+}
