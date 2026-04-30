@@ -5,7 +5,25 @@
  * Valida el origen de los mensajes para prevenir ataques de clickjacking.
  */
 
-export type BridgeMessageType = 'AUTH_TOKEN' | 'NAVIGATE' | 'LOGOUT' | 'READY' | 'PREFERENCES'
+export type BridgeMessageType = 'AUTH_TOKEN' | 'AUTH_SESSION' | 'NAVIGATE' | 'LOGOUT' | 'READY' | 'PREFERENCES'
+
+/**
+ * Payload de AUTH_SESSION — transporta la sesión completa del Shell a mfe-sipa-new.
+ * El iframe lo usa para hidratar su Vuex store y registrar las rutas dinámicas
+ * sin necesidad de hacer su propio POST /api/v1/sbs/login.
+ */
+export interface AuthSessionPayload {
+  token: string
+  user: string
+  email: string
+  profileUser: Record<string, unknown>
+  componentsUser: Array<{ path: string; component: string; name: string }>
+  modulesUser: unknown[]
+  profileApp: { profileCode: number; applicationCode: number }
+  userAppId: number
+  /** Ruta inicial dentro de mfe-sipa-new (ej: "/polizas/nueva") */
+  targetPath: string
+}
 
 export interface BridgeMessage<T = unknown> {
   type: BridgeMessageType

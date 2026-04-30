@@ -85,7 +85,7 @@ function handleLogout() {
               class="pa-1"
             >
               <router-link
-                :to="{ path: subModule.appComponent.path }"
+                :to="{ path: '/sipa-new/' + encodeURIComponent(subModule.appComponent.path) }"
                 class="text-decoration-none"
                 @click="drawer = false"
               >
