@@ -2,13 +2,14 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useShellStore } from '../stores/shell.store'
+import { resolveMfeRoute } from '../utils/mfe-route-resolver'
 import NavBar from './NavBar.vue'
-import Sidebar from './Sidebar.vue'
 
 const shellStore = useShellStore()
 const router = useRouter()
 const drawer = ref(false)
 const userModules = computed(() => shellStore.userModules)
+const hasRole = (role: string) => shellStore.userRoles.includes(role)
 
 function handleLogout() {
   shellStore.logout()
@@ -51,6 +52,59 @@ function handleLogout() {
 
       <v-divider class="flex-shrink-0" />
 
+      <!-- Vínculos fijos de navegación -->
+      <v-list density="compact" class="flex-shrink-0 px-2 py-1">
+        <v-list-item
+          v-if="hasRole('user')"
+          prepend-icon="mdi-view-dashboard-outline"
+          title="Dashboard"
+          :to="{ path: '/dashboard' }"
+          rounded="lg"
+          @click="drawer = false"
+        />
+        <v-list-item
+          v-if="hasRole('user')"
+          prepend-icon="mdi-bank-outline"
+          title="Cuentas"
+          :to="{ path: '/accounts' }"
+          rounded="lg"
+          @click="drawer = false"
+        />
+        <v-list-item
+          v-if="hasRole('transfers')"
+          prepend-icon="mdi-swap-horizontal"
+          title="Transferencias"
+          :to="{ path: '/transfers' }"
+          rounded="lg"
+          @click="drawer = false"
+        />
+        <v-list-item
+          v-if="hasRole('user')"
+          prepend-icon="mdi-history"
+          title="Legacy"
+          :to="{ path: '/legacy' }"
+          rounded="lg"
+          @click="drawer = false"
+        />
+        <v-list-item
+          v-if="hasRole('user')"
+          prepend-icon="mdi-application-outline"
+          title="SipaNew"
+          :to="{ path: '/sipa-new' }"
+          rounded="lg"
+          @click="drawer = false"
+        />
+        <v-list-item
+          prepend-icon="mdi-apps"
+          title="Seleccionar Aplicación"
+          :to="{ name: 'app-select' }"
+          rounded="lg"
+          @click="drawer = false"
+        />
+      </v-list>
+
+      <v-divider class="flex-shrink-0" />
+
       <!-- Contenido con scroll -->
       <div class="overflow-y-auto flex-grow-1">
 
@@ -85,7 +139,7 @@ function handleLogout() {
               class="pa-1"
             >
               <router-link
-                :to="{ path: '/sipa-new/' + encodeURIComponent(subModule.appComponent.path) }"
+                :to="resolveMfeRoute(subModule.appComponent)"
                 class="text-decoration-none"
                 @click="drawer = false"
               >
@@ -114,7 +168,6 @@ function handleLogout() {
   <!-- ── Contenido principal (Vuetify layout) ── -->
   <v-main>
     <div class="app-shell__body">
-      <Sidebar :roles="shellStore.userRoles" />
       <div class="app-shell__content">
         <Suspense>
           <slot />

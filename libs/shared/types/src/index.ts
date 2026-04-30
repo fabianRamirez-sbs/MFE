@@ -64,6 +64,13 @@ export interface SelectedApp {
 
 // ── Menú dinámico (resultado de POST /api/v1/sbs/login) ─────────────────────
 
+/**
+ * Identificadores de los MFEs disponibles en el Shell.
+ * Usado por el resolvedor de rutas para determinar hacia qué MFE
+ * apunta cada ítem del menú dinámico.
+ */
+export type MfeTarget = 'sipa-new' | 'dashboard' | 'legacy' | (string & {})
+
 /** Ruta de componente registrada dinámicamente en el router del Shell */
 export interface AppComponent {
   /** Segmento de URL, ej: "polizas/nueva" */
@@ -72,6 +79,12 @@ export interface AppComponent {
   component: string
   /** Nombre de la ruta para vue-router */
   name: string
+  /**
+   * MFE destino. Si el backend no lo envía, el resolvedor aplica
+   * la config de patrones para determinarlo automáticamente.
+   * Valores: 'sipa-new' | 'dashboard' | 'legacy' | cualquier prefijo de ruta del Shell.
+   */
+  mfe?: MfeTarget
 }
 
 /** Información del módulo padre en el menú lateral */
