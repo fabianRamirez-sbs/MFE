@@ -54,22 +54,22 @@ function handleLogout() {
 
       <!-- Vínculos fijos de navegación -->
       <v-list density="compact" class="flex-shrink-0 px-2 py-1">
-        <v-list-item
+        <!-- <v-list-item
           v-if="hasRole('user')"
           prepend-icon="mdi-view-dashboard-outline"
           title="Dashboard"
           :to="{ path: '/dashboard' }"
           rounded="lg"
           @click="drawer = false"
-        />
-        <v-list-item
+        /> -->
+        <!-- <v-list-item
           v-if="hasRole('user')"
           prepend-icon="mdi-bank-outline"
           title="Cuentas"
           :to="{ path: '/accounts' }"
           rounded="lg"
           @click="drawer = false"
-        />
+        /> -->
         <v-list-item
           v-if="hasRole('transfers')"
           prepend-icon="mdi-swap-horizontal"
@@ -78,19 +78,27 @@ function handleLogout() {
           rounded="lg"
           @click="drawer = false"
         />
-        <v-list-item
+        <!-- <v-list-item
           v-if="hasRole('user')"
           prepend-icon="mdi-history"
           title="Legacy"
           :to="{ path: '/legacy' }"
           rounded="lg"
           @click="drawer = false"
-        />
-        <v-list-item
+        /> -->
+        <!-- <v-list-item
           v-if="hasRole('user')"
           prepend-icon="mdi-application-outline"
           title="SipaNew"
           :to="{ path: '/sipa-new' }"
+          rounded="lg"
+          @click="drawer = false"
+        /> -->
+        <v-list-item
+          v-if="hasRole('user')"
+          prepend-icon="mdi-car-connected"
+          title="Movilidad"
+          :to="{ name: 'movilidad' }"
           rounded="lg"
           @click="drawer = false"
         />

@@ -113,6 +113,23 @@ const transfersTheme: ThemeDefinition = {
   },
 }
 
+/** Movilidad: naranja energético para seguros de transporte y vehículos */
+const movilidadTheme: ThemeDefinition = {
+  dark: false,
+  colors: {
+    primary:              '#c2410c',
+    'primary-darken-1':   '#9a3412',
+    secondary:            '#b45309',
+    'secondary-darken-1': '#92400e',
+    background:           '#fff7ed',
+    surface:              '#ffffff',
+    error:                '#ef4444',
+    warning:              '#f59e0b',
+    success:              '#22c55e',
+    info:                 '#0ea5e9',
+  },
+}
+
 // ── Defaults globales ──────────────────────────────────────────────────────
 
 const globalDefaults = {
@@ -152,6 +169,7 @@ export function createVuetify() {
         dashboardTheme,
         accountsTheme,
         transfersTheme,
+        movilidadTheme,
       },
     },
     defaults: globalDefaults,
@@ -168,3 +186,4 @@ export type MfeThemeName =
   | 'dashboardTheme'
   | 'accountsTheme'
   | 'transfersTheme'
+  | 'movilidadTheme'

@@ -47,6 +47,7 @@ export default defineConfig(({ mode }) => {
           'mfe-accounts': env.VITE_MFE_ACCOUNTS_URL ?? 'http://localhost:3003/assets/remoteEntry.js',
           'mfe-transfers': env.VITE_MFE_TRANSFERS_URL ?? 'http://localhost:3004/assets/remoteEntry.js',
           'mfe-legacy': env.VITE_MFE_LEGACY_URL ?? 'http://localhost:3005/assets/remoteEntry.js',
+          'mfe-movilidad': env.VITE_MFE_MOVILIDAD_URL ?? 'http://localhost:3006/assets/remoteEntry.js',
         },
         /**
          * Shared: librerías que NO se duplican entre host y remotes.

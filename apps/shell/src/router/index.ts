@@ -71,6 +71,13 @@ const routes: RouteRecordRaw[] = [
     meta: { requiredRoles: ['user'] },
   },
   {
+    // Ruta para el MFE Movilidad — Module Federation
+    path: '/movilidad/:pathMatch(.*)*',
+    name: 'movilidad',
+    component: () => import('../views/MfeMovilidadView.vue'),
+    meta: { requiredRoles: ['user'] },
+  },
+  {
     path: '/unauthorized',
     name: 'unauthorized',
     component: UnauthorizedView,
