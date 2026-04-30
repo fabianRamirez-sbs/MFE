@@ -9,13 +9,16 @@
     "preview": "vite preview --port 3001"
   },
   "dependencies": {
-    "pinia": "^2.1.0",
-    "vue": "^3.4.0",
-    "vue-router": "^4.3.0",
     "@sipabanca/shared-auth": "*",
     "@sipabanca/shared-http": "*",
     "@sipabanca/shared-state": "*",
     "@sipabanca/shared-types": "*",
-    "@sipabanca/shared-ui": "*"
+    "@sipabanca/shared-ui": "*",
+    "pinia": "^2.1.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "vite-plugin-vue-devtools": "^7.7.9"
   }
 }
